@@ -4,7 +4,34 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class qBay {
+	private static final List<Item> itemsForSale = new ArrayList<>();
+	static class Item {
+		private final double price;
+		private final String category;
+		private final String name;
 
+
+		public Item(String name, String category, double price) {
+			this.price = price;
+			this.category = category;
+			this.name = name;
+
+		}
+		public double getPrice() {
+			return price;
+		}
+		public String getCategory() {
+			return category;
+		}
+		public String getName() {
+			return name;
+		}
+
+		@Override
+		public String toString() {
+			return "Name: " + name + ", Category: " + category + ", Price: " + price;
+		}
+	}
 
 	public static void main(String[] args) {
 		welcomeScreen();
