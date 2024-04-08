@@ -85,22 +85,23 @@ public class qBay {
 
 	private static void mainMenu() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Buy, Sell, Cart, Logout");
-		switch (scanner.nextLine()) {
-			case "Buy":
-				buyMenu();
-				break;
-			case "Sell":
-				sellMenu(scanner);
-				break;
-			case "Cart":
-				cartMenu();
-				break;
-			case "Logout":
-				logout();
-				break;
+		while (true) {
+			System.out.println("\nBuy, Sell, Cart, Logout");
+			switch (scanner.nextLine().toLowerCase()) {
+				case "buy":
+					buyMenu();
+					break;
+				case "sell":
+					sellMenu(scanner);
+					break;
+				case "cart":
+					cartMenu();
+					break;
+				case "logout":
+					logout();
+					return;
+			}
 		}
-		scanner.close();
 	}
 
 	private static void buyMenu() {
@@ -113,14 +114,13 @@ public class qBay {
 			System.out.println("2. Add a new item for sale");
 			System.out.print("Select an option (or 'back' to return to the main menu): ");
 			String input = scanner.nextLine();
-			if (input.equals("back")) {
-				return;
-			} else if (input.equals("1")) {
-				viewItemsForSale();
-			} else if (input.equals("2")) {
-				addNewItem(scanner);
-			} else {
-				System.out.println("Invalid choice. Please try again.");
+			switch (input.toLowerCase()) {
+				case "back" -> {
+					return;
+				}
+				case "1" -> viewItemsForSale();
+				case "2" -> addNewItem(scanner);
+				default -> System.out.println("Invalid choice. Please try again.");
 			}
 		}
 	}
