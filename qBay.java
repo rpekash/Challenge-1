@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class qBay {
 	private static final List<Item> itemsForSale = new ArrayList<>();
+	private static String user;
 	static class Item {
 		private final double price;
 		private final String category;
@@ -72,6 +73,7 @@ public class qBay {
 			if (accounts.containsKey(username)) {
 				System.out.println("Enter your password: ");
 				if (scanner.nextLine().equals(accounts.get(username))) {
+					user = username;
 					return true;
 				}
 				System.out.println("Incorrect password.");
@@ -153,6 +155,7 @@ public class qBay {
 	}
 
 	private static void logout() {
+		System.out.printf("%nThank you %s for using qBay.%nYou have been successfully logged out", user);
 	}
 
 
