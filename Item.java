@@ -1,30 +1,50 @@
 public class Item {
-    private int price;
-    private String name;
-    private String category;
-    private String studentName;
-    private String studentEmail;
+    private final double price;
+    private final String category;
+    private final String name;
+    private final String studentFirstName;
+    private final String studentLastName;
+    private final String studentEmail;
 
-public Item(int price, String name, String category,String studentName, String studentEmail){
-    this.price = price;
-    this.name = name;
-    this.category = category;
-    this.studentName = studentName;
-    this.studentEmail = studentEmail;
-}
-public Item(int price2, String name2, String category2){
+    public Item(String name, String category, double price, String studentFirstName, String studentLastName, String studentEmail) {
+        this.price = price;
+        this.category = category;
+        this.name = name;
+        this.studentFirstName = studentFirstName;
+        this.studentLastName = studentLastName;
+        this.studentEmail = studentEmail;
+    }
 
-}
-public String getName(){
-    return name;
-}
-public int getPrice(){
-    return price;
-}
-public String getCategory(){
-    return category;
-}
-public String toString(){
-    return "Item Name: " + this.name + "\n Category: " + this.category + "\n Student who is selling it: " + studentName + "\n student email: " + studentEmail + "\n price: " + price;
-}
+    public double getPrice() {
+        return price;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getStudentFirstName() {
+        return studentFirstName;
+    }
+
+    public String getStudentLastName() {
+        return studentLastName;
+    }
+
+    public String getStudentEmail() {
+        return studentEmail;
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Category: " + category + ", Price: $" + price;
+    }
+
+    public String detailedString() {
+        return "Name: " + name + "\nCategory: " + category + "\nSeller: " + studentFirstName + " " + studentLastName + "\nEmail: " + studentEmail + "\nPrice: $" + price;
+    }
 }

@@ -3,9 +3,20 @@ import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
 
+
 public class qBay {
 	private static final List<Item> itemsForSale = new ArrayList<>();
 	private static final List<Item> cart = new ArrayList<>();
+    private static final Scanner scanner = new Scanner(System.in);
+
+    static {
+        itemsForSale.add(new Item("Laptop", "Electronics", 999.99));
+        itemsForSale.add(new Item("Textbook", "Books", 59.99));
+        itemsForSale.add(new Item("Coffee Mug", "Accessories", 9.99));
+        itemsForSale.add(new Item("Hoodie", "Clothing", 49.99));
+        itemsForSale.add(new Item("Calculator", "Electronics", 74.99));
+    }
+
 	static class Item {
 		private final double price;
 		private final String category;
@@ -104,8 +115,37 @@ public class qBay {
 		scanner.close();
 	}
 
-	private static void buyMenu() {
-	}
+    private static void buyMenu() {
+        while (true) {
+            System.out.println("\nItems for sale:");
+            for (int i = 0; i < itemsForSale.size(); i++) {
+                System.out.println((i + 1) + ". " + itemsForSale.get(i).toString());
+            }
+            System.out.println("Select an item number for more details, 'add [item number]' to add an item to your cart, or 'back' to return to the main menu.");
+    
+            String input = scanner.nextLine();
+            if (input.equals("back")) {
+                break;
+            } else if (input.startsWith("add ")) {
+                try {
+                    int itemNumber = Integer.parseInt(input.substring(4)) - 1;
+                    cart.add(itemsForSale.get(itemNumber));
+                    System.out.println("'" + itemsForSale.get(itemNumber).getName() + "' has been added to your cart.");
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a valid item number.");
+                }
+            } else {
+                try {
+                    int itemNumber = Integer.parseInt(input) - 1;
+                    System.out.println(itemsForSale.get(itemNumber));
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a valid item number.");
+                }
+            }
+        }
+    }
+    
+
 
 	private static void sellMenu(Scanner scanner) {
 		while (true) {
