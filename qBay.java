@@ -3,9 +3,21 @@ import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
 
+
 public class qBay {
 	private static final List<Item> itemsForSale = new ArrayList<>();
 	private static String user;
+	private static final List<Item> cart = new ArrayList<>();
+  private static final Scanner scanner = new Scanner(System.in);
+  
+    static {
+        itemsForSale.add(new Item("Laptop", "Electronics", 999.99));
+        itemsForSale.add(new Item("Textbook", "Books", 59.99));
+        itemsForSale.add(new Item("Coffee Mug", "Accessories", 9.99));
+        itemsForSale.add(new Item("Hoodie", "Clothing", 49.99));
+        itemsForSale.add(new Item("Calculator", "Electronics", 74.99));
+    }
+  
 	static class Item {
 		private final double price;
 		private final String category;
@@ -87,6 +99,7 @@ public class qBay {
 
 	private static void mainMenu() {
 		Scanner scanner = new Scanner(System.in);
+
 		while (true) {
 			System.out.println("\nBuy, Sell, Cart, Logout");
 			switch (scanner.nextLine().toLowerCase()) {
@@ -103,11 +116,41 @@ public class qBay {
 					logout();
 					return;
 			}
-		}
-	}
+    }
 
-	private static void buyMenu() {
-	}
+		
+
+    private static void buyMenu() {
+        while (true) {
+            System.out.println("\nItems for sale:");
+            for (int i = 0; i < itemsForSale.size(); i++) {
+                System.out.println((i + 1) + ". " + itemsForSale.get(i).toString());
+            }
+            System.out.println("Select an item number for more details, 'add [item number]' to add an item to your cart, or 'back' to return to the main menu.");
+    
+            String input = scanner.nextLine();
+            if (input.equals("back")) {
+                break;
+            } else if (input.startsWith("add ")) {
+                try {
+                    int itemNumber = Integer.parseInt(input.substring(4)) - 1;
+                    cart.add(itemsForSale.get(itemNumber));
+                    System.out.println("'" + itemsForSale.get(itemNumber).getName() + "' has been added to your cart.");
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a valid item number.");
+                }
+            } else {
+                try {
+                    int itemNumber = Integer.parseInt(input) - 1;
+                    System.out.println(itemsForSale.get(itemNumber));
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a valid item number.");
+                }
+            }
+        }
+    }
+    
+
 
 	private static void sellMenu(Scanner scanner) {
 		while (true) {
@@ -145,14 +188,54 @@ public class qBay {
 		String category = scanner.nextLine();
 		System.out.print("Enter item price: ");
 		double price = scanner.nextDouble();
-		scanner.nextLine(); // Consume newline
+		scanner.nextLine(); 
 	
 		itemsForSale.add(new Item(name, category, price));
 		System.out.println("Item added successfully.");
 	}
 
-	private static void cartMenu() {
-	}
+	private static void cartMenu(Scanner scanner) {
+        while (true) {
+            System.out.println("\nCart Menu:");
+            System.out.println("1. View Cart");
+            System.out.println("2. Checkout");
+            System.out.print("Select an option (or 'back' to return to the main menu): ");
+            String input = scanner.nextLine();
+            if (input.equals("back")) {
+                return;
+            } else if (input.equals("1")) {
+                viewCart();
+            } else if (input.equals("2")) {
+                checkout();
+                return; 
+            } else {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void viewCart() {
+        if (cart.isEmpty()) {
+            System.out.println("\nYour cart is empty.");
+        } else {
+            System.out.println("\nItems in your cart:");
+            double total = 0;
+            for (Item item : cart) {
+                System.out.println(item.getName() + " - $" + item.getPrice());
+                total += item.getPrice();
+            }
+            System.out.println("Total: $" + total);
+        }
+    }
+
+    private static void checkout() {
+        if (cart.isEmpty()) {
+            System.out.println("\nYour cart is empty. Nothing to checkout.");
+        } else {
+            System.out.println("\nCheckout completed. Thank you for your purchase!");
+            cart.clear(); // Clear the cart after checkout
+        }
+    }
 
 	private static void logout() {
 		System.out.printf("%nThank you %s for using qBay.%nYou have been successfully logged out", user);
