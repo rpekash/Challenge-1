@@ -6,9 +6,10 @@ import java.util.ArrayList;
 
 public class qBay {
 	private static final List<Item> itemsForSale = new ArrayList<>();
+	private static String user;
 	private static final List<Item> cart = new ArrayList<>();
-    private static final Scanner scanner = new Scanner(System.in);
-
+  private static final Scanner scanner = new Scanner(System.in);
+  
     static {
         itemsForSale.add(new Item("Laptop", "Electronics", 999.99));
         itemsForSale.add(new Item("Textbook", "Books", 59.99));
@@ -16,7 +17,7 @@ public class qBay {
         itemsForSale.add(new Item("Hoodie", "Clothing", 49.99));
         itemsForSale.add(new Item("Calculator", "Electronics", 74.99));
     }
-
+  
 	static class Item {
 		private final double price;
 		private final String category;
@@ -84,6 +85,7 @@ public class qBay {
 			if (accounts.containsKey(username)) {
 				System.out.println("Enter your password: ");
 				if (scanner.nextLine().equals(accounts.get(username))) {
+					user = username;
 					return true;
 				}
 				System.out.println("Incorrect password.");
@@ -97,23 +99,26 @@ public class qBay {
 
 	private static void mainMenu() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Buy, Sell, Cart, Logout");
-		switch (scanner.nextLine()) {
-			case "Buy":
-				buyMenu();
-				break;
-			case "Sell":
-				sellMenu(scanner);
-				break;
-			case "Cart":
-				cartMenu(scanner);
-				break;
-			case "Logout":
-				logout();
-				break;
-		}
-		scanner.close();
-	}
+
+		while (true) {
+			System.out.println("\nBuy, Sell, Cart, Logout");
+			switch (scanner.nextLine().toLowerCase()) {
+				case "buy":
+					buyMenu();
+					break;
+				case "sell":
+					sellMenu(scanner);
+					break;
+				case "cart":
+					cartMenu();
+					break;
+				case "logout":
+					logout();
+					return;
+			}
+    }
+
+		
 
     private static void buyMenu() {
         while (true) {
@@ -154,14 +159,13 @@ public class qBay {
 			System.out.println("2. Add a new item for sale");
 			System.out.print("Select an option (or 'back' to return to the main menu): ");
 			String input = scanner.nextLine();
-			if (input.equals("back")) {
-				return;
-			} else if (input.equals("1")) {
-				viewItemsForSale();
-			} else if (input.equals("2")) {
-				addNewItem(scanner);
-			} else {
-				System.out.println("Invalid choice. Please try again.");
+			switch (input.toLowerCase()) {
+				case "back" -> {
+					return;
+				}
+				case "1" -> viewItemsForSale();
+				case "2" -> addNewItem(scanner);
+				default -> System.out.println("Invalid choice. Please try again.");
 			}
 		}
 	}
@@ -234,6 +238,7 @@ public class qBay {
     }
 
 	private static void logout() {
+		System.out.printf("%nThank you %s for using qBay.%nYou have been successfully logged out", user);
 	}
 
 
