@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class qBay {
 	private static final List<Item> itemsForSale = new ArrayList<>();
+	private static final List<Item> cart = new ArrayList<>();
 	static class Item {
 		private final double price;
 		private final String category;
@@ -94,7 +95,7 @@ public class qBay {
 				sellMenu(scanner);
 				break;
 			case "Cart":
-				cartMenu();
+				cartMenu(scanner);
 				break;
 			case "Logout":
 				logout();
@@ -143,14 +144,54 @@ public class qBay {
 		String category = scanner.nextLine();
 		System.out.print("Enter item price: ");
 		double price = scanner.nextDouble();
-		scanner.nextLine(); // Consume newline
+		scanner.nextLine(); 
 	
 		itemsForSale.add(new Item(name, category, price));
 		System.out.println("Item added successfully.");
 	}
 
-	private static void cartMenu() {
-	}
+	private static void cartMenu(Scanner scanner) {
+        while (true) {
+            System.out.println("\nCart Menu:");
+            System.out.println("1. View Cart");
+            System.out.println("2. Checkout");
+            System.out.print("Select an option (or 'back' to return to the main menu): ");
+            String input = scanner.nextLine();
+            if (input.equals("back")) {
+                return;
+            } else if (input.equals("1")) {
+                viewCart();
+            } else if (input.equals("2")) {
+                checkout();
+                return; 
+            } else {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void viewCart() {
+        if (cart.isEmpty()) {
+            System.out.println("\nYour cart is empty.");
+        } else {
+            System.out.println("\nItems in your cart:");
+            double total = 0;
+            for (Item item : cart) {
+                System.out.println(item.getName() + " - $" + item.getPrice());
+                total += item.getPrice();
+            }
+            System.out.println("Total: $" + total);
+        }
+    }
+
+    private static void checkout() {
+        if (cart.isEmpty()) {
+            System.out.println("\nYour cart is empty. Nothing to checkout.");
+        } else {
+            System.out.println("\nCheckout completed. Thank you for your purchase!");
+            cart.clear(); // Clear the cart after checkout
+        }
+    }
 
 	private static void logout() {
 	}
